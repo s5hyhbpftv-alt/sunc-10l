@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.57 -2.57 123.91 125.14" width="124" height="125" role="img" aria-label="СУНЦ МГУ">
+<g stroke="#1B1211" stroke-width="5.14" stroke-linejoin="round" stroke-linecap="round">
+<polygon points="29.69,0.00 59.38,17.14 59.38,51.43 29.69,68.57 0.00,51.43 0.00,17.14" fill="#FF0C19"/>
+<path d="M29.69 34.29 L29.69 0.00" fill="none"/>
+<path d="M29.69 34.29 L0.00 51.43" fill="none"/>
+<path d="M29.69 34.29 L59.38 51.43" fill="none"/>
+<polygon points="89.08,0.00 118.77,17.14 118.77,51.43 89.08,68.57 59.38,51.43 59.38,17.14" fill="#FFE000"/>
+<path d="M89.08 34.29 L89.08 0.00" fill="none"/>
+<path d="M89.08 34.29 L59.38 51.43" fill="none"/>
+<path d="M89.08 34.29 L118.77 51.43" fill="none"/>
+<polygon points="59.38,51.43 89.08,68.57 89.08,102.86 59.38,120.00 29.69,102.86 29.69,68.57" fill="#00AEE8"/>
+<path d="M59.38 85.71 L59.38 51.43" fill="none"/>
+<path d="M59.38 85.71 L29.69 102.86" fill="none"/>
+<path d="M59.38 85.71 L89.08 102.86" fill="none"/>
+</g></svg>
