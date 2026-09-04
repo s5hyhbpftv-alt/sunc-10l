@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# Пересобрать сайт и выложить его на GitHub Pages.
-# Ветка gh-pages содержит только сборку — исходники живут в main.
+# Пересобрать книги и сайт и выложить сборку на GitHub Pages.
+# Ветка gh-pages содержит только dist, исходники живут в main.
+# Имена переменных латиницей: bash не принимает кириллицу в идентификаторах.
 set -euo pipefail
-ЗДЕСЬ="$(cd "$(dirname "$0")" && pwd)"
-РЕПО="s5hyhbpftv-alt/sunc-10l"
+root="$(cd "$(dirname "$0")" && pwd)"
+repo="s5hyhbpftv-alt/sunc-10l"
 
-cd "$ЗДЕСЬ"
+cd "$root"
 python3 книга.py
 python3 книга-крафт.py
 python3 build_v1.py
@@ -16,15 +17,18 @@ cp "out/Расписание 10-Л — крафт.pdf"     web/public/pdf/10L-kr
 cp out/v1-raspisanie-10L-SUNC-MGU.pdf    web/public/pdf/10L-plakat-a3.pdf
 cp assets/kraft.jpg                      web/public/kraft.jpg
 
-cd web && npm run build && cd ..
+( cd web && npm run build )
 
-ВРЕМЕННО="$(mktemp -d)"
-cp -R web/dist/. "$ВРЕМЕННО/"
-touch "$ВРЕМЕННО/.nojekyll"
-cd "$ВРЕМЕННО"
-git init -q && git checkout -qb gh-pages
-git add -A && git -c user.name="Mikhail Drozdov" -c user.email="mboger777@gmail.com" \
-  commit -qm "Сборка сайта $(date +%F)"
-git push -q --force "https://github.com/$РЕПО.git" gh-pages
-cd / && rm -rf "$ВРЕМЕННО"
+tmp="$(mktemp -d)"
+cp -R web/dist/. "$tmp/"
+touch "$tmp/.nojekyll"
+cd "$tmp"
+git init -q
+git checkout -qb gh-pages
+git add -A
+git -c user.name="Mikhail Drozdov" -c user.email="mboger777@gmail.com" \
+    commit -qm "Сборка сайта $(date +%F)"
+git push -q --force "https://github.com/$repo.git" gh-pages
+cd /
+rm -rf "$tmp"
 echo "Готово → https://s5hyhbpftv-alt.github.io/sunc-10l/"
