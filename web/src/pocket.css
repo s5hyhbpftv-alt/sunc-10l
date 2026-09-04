@@ -28,8 +28,9 @@
             letter-spacing:.08em;text-transform:uppercase;margin-left:6px;opacity:.7}
 .card-bar{display:block;height:4px;border-radius:3px;margin-top:16px;overflow:hidden;
           background:var(--line)}
-.card-bar b{display:block;height:100%;background:var(--accent);
-            transition:width .6s cubic-bezier(.2,.85,.25,1)}
+.card-bar b{display:block;height:100%;width:100%;background:var(--accent);
+            transform-origin:left center;transform:scaleX(0);
+            transition:transform .6s cubic-bezier(.2,.85,.25,1)}
 .card-next{font-size:12.5px;margin:12px 0 0}
 
 /* дни */

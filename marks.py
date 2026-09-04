@@ -146,3 +146,32 @@ def draw_signet(c, cx, cy, R, шрифт, mono=None, colors=None,
     c.setFillColor(HexColor(mono or ink or inner))
     w = pdfmetrics.stringWidth(label, шрифт, кегль)
     c.drawString(cx - w / 2, cy - кегль * 0.35, label)
+
+
+def svg_signet(R, mono=None, colors=None, inner='#EEF2F8', ink=None,
+               label='10Л', font='Unbounded, system-ui, sans-serif'):
+    """Печатка в SVG. Кегль подписи задаётся долей радиуса: ширину строки
+    здесь не измерить, поэтому доля подобрана по отрисовке в reportlab."""
+    ring = colors or RING
+    pad = R * 0.2
+    size = 2 * (R + pad)
+    cx = cy = R + pad
+    r = R * 0.62
+    pts = [(cx + R * math.sin(math.pi / 3 * i), cy - R * math.cos(math.pi / 3 * i))
+           for i in range(6)]
+    out = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.2f %.2f" '
+           'width="%.0f" height="%.0f" role="img" aria-label="10-Л, химический класс">'
+           % (size, size, size, size)]
+    out.append('<g fill="none" stroke-linecap="round" stroke-width="%.2f">' % (R * 0.132))
+    for i in range(6):
+        a, b = pts[i], pts[(i + 1) % 6]
+        out.append('<path d="M%.2f %.2f L%.2f %.2f" stroke="%s"/>'
+                   % (a[0], a[1], b[0], b[1], mono or ring[i]))
+    out.append('</g>')
+    out.append('<circle cx="%.2f" cy="%.2f" r="%.2f" fill="none" stroke="%s" '
+               'stroke-width="%.2f"/>' % (cx, cy, r, mono or inner, R * 0.085))
+    out.append('<text x="%.2f" y="%.2f" text-anchor="middle" dominant-baseline="central" '
+               'font-family="%s" font-weight="800" font-size="%.2f" fill="%s">%s</text>'
+               % (cx, cy, font, r * 0.66, mono or ink or inner, label))
+    out.append('</svg>')
+    return '\n'.join(out)

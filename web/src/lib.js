@@ -28,8 +28,6 @@ export const tally = () => {
   return Object.entries(t).sort((a, b) => b[1] - a[1] || D.family[a[0]].title.localeCompare(D.family[b[0]].title))
 }
 
-export const TOTAL = D.week.reduce((s, d) => s + d.blocks.reduce((k, b) => k + b.l1 - b.l0 + 1, 0), 0)
-
 // ── что происходит прямо сейчас ─────────────────────────────────────────────
 // Возвращает одно из состояний дня: до начала, урок, промежуток, всё кончилось,
 // выходной. Промежуток знает своё имя — перемена, обед или второй завтрак.

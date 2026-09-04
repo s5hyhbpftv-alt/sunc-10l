@@ -181,7 +181,7 @@ function Card({ live, world, paint }) {
           Дальше — {b.name.toLowerCase()} в {hhmm(live.next.from)}
           {b.room ? `, каб. ${b.room}` : ''}.
         </p>
-        <span className="card-bar"><b style={{ width: `${live.progress * 100}%` }} /></span>
+        <span className="card-bar"><b style={{ transform: `scaleX(${live.progress})` }} /></span>
       </div>
     )
   }
@@ -201,7 +201,7 @@ function Card({ live, world, paint }) {
       </p>
       <p className="card-big">{live.left} <i>{склонМин(live.left)}</i></p>
       <span className="card-bar" style={{ background: soft }}>
-        <b style={{ width: `${live.progress * 100}%`, background: on }} />
+        <b style={{ transform: `scaleX(${live.progress})`, background: on }} />
       </span>
       {live.next && (
         <p className="card-next" style={{ color: soft }}>
