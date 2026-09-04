@@ -58,7 +58,10 @@ export default function Spectrum({ world, active, onPick, height = 'clamp(180px,
           const n = day.blocks.reduce((s, b) => s + b.l1 - b.l0 + 1, 0)
           return (
             <div key={day.short}>
-              <div className="d">{day.name}</div>
+              <div className="d">
+                <span className="wide">{day.name}</span>
+                <span className="narrow">{day.short}</span>
+              </div>
               <div className="n">{n} {skl(n)}</div>
             </div>
           )

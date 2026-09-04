@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { WORLDS } from './worlds'
 import { Signet, Cubes } from './Marks'
-import { D, hhmm, skl, dayStats, TOTAL } from './lib'
+import { D, hhmm, skl, dayStats } from './lib'
 import Spectrum from './sections/Spectrum'
 import DayTape from './sections/DayTape'
 import Bells from './sections/Bells'
@@ -116,15 +116,10 @@ export default function App() {
               <p className="sub">
                 Тридцать восемь уроков поставлены в шесть колонок. Полоса тем выше, чем
                 дольше держится предмет, и цвет у каждого свой — читается быстрее, чем
-                подпись под ним.
+                подпись под ним. Двадцать восемь с половиной часов в неделю,
+                свой кабинет — сороковой.
               </p>
             </div>
-          </div>
-          <div className="stats">
-            <div><b>{TOTAL}</b><span>уроков в неделю</span></div>
-            <div><b>6</b><span>дней в колонке</span></div>
-            <div><b>28:30</b><span>чистого времени</span></div>
-            <div><b>40</b><span>свой кабинет</span></div>
           </div>
         </section>
 
@@ -142,7 +137,6 @@ export default function App() {
         <div className="rule" />
 
         <section id="proba">
-          <p className="kicker">Проба дня</p>
           <div className="dayhead">
             <h2 className="dayname">{cur.name}</h2>
             <span className="facts">

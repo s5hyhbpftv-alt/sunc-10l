@@ -38,6 +38,8 @@ export default function DayTape({ world, day }) {
         const meta = world.meta(paint)
         const lessons = []
         for (let n = b.l0; n <= b.l1; n++) lessons.push(n)
+        // в одиночном уроке две строки справа не помещаются по высоте
+        const single = b.l0 === b.l1
         return (
           <div key={i} className="blk"
                style={{ top: `${pct(a)}%`, height: `${((z - a) / SPAN) * 100}%`,
@@ -60,7 +62,7 @@ export default function DayTape({ world, day }) {
                 <span className="nm" style={{ color: on }}>{b.name}</span>
                 {b.note && <span className="note" style={{ color: soft }}>{b.note}</span>}
               </div>
-              <div className="right">
+              <div className={'right' + (single ? ' inline' : '')}>
                 {b.room && (
                   <div className="room" style={{ color: on }}>
                     <i style={{ color: soft }}>каб.</i>{b.room}
