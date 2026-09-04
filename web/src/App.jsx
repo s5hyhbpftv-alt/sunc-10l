@@ -212,6 +212,8 @@ export default function App() {
           </span>
           <span className="note">Хронохром · 2026</span>
         </footer>
+
+        <p className="studio">{D.texts['студия']}</p>
       </main>
     </>
   )

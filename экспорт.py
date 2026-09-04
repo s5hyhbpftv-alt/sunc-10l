@@ -3,7 +3,7 @@
 import os, sys, json
 ЗДЕСЬ = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ЗДЕСЬ)
-from data import LESSON_TIMES, INTERVALS, FAMILY, WEEK
+from data import LESSON_TIMES, INTERVALS, FAMILY, WEEK, ЭПИГРАФ, ТЕКСТЫ
 
 import importlib.util
 спец = importlib.util.spec_from_file_location('кн', os.path.join(ЗДЕСЬ, 'книга-крафт.py'))
@@ -23,10 +23,11 @@ import importlib.util
     'intervals': [{'kind': k, 'name': n, 'a': a, 'b': b} for k, n, a, b in INTERVALS],
     'family': {k: {'ink': v[0], 'kraft': КРАСКА[k], 'symbol': ЗНАК[k], 'title': v[1]}
                for k, v in FAMILY.items()},
-    'week': [{'name': d[0], 'short': d[1],
+    'texts': ТЕКСТЫ,
+    'week': [{'name': d[0], 'short': d[1], 'epigraph': ЭПИГРАФ[i],
               'blocks': [{'l0': b[0], 'l1': b[1], 'fam': b[2], 'name': b[3],
                           'note': b[4], 'teacher': b[5], 'room': b[6]} for b in d[2]]}
-             for d in WEEK],
+             for i, d in enumerate(WEEK)],
 }
 
 путь = os.path.join(ЗДЕСЬ, 'web', 'src', 'data.json')

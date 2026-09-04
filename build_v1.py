@@ -466,6 +466,8 @@ def page_legend(c):
             7, 2.4, MUTED2)
     tracked(c, 'ДАННЫЕ: INTERNAT.MSU.RU · РАСПИСАНИЕ НА I СЕМЕСТР 2026/27 · КОЛОНКА 10-Л',
             W - M, ry + rh + 12, 'Mono', 7, 1.8, MUTED2, align='r')
+    hairline(c, W / 2 - 150, ry - 42, W / 2 + 150, MUTED2, 0.5)
+    tracked(c, ТЕКСТЫ['студия'].upper(), W / 2, ry - 58, 'Mono', 7, 2.2, MUTED, align='c')
     folio(c, 'ХРОНОХРОМ', '10')
 
 
