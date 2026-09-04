@@ -69,6 +69,10 @@ header{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);
        text-transform:uppercase;color:var(--muted);text-decoration:none;
        text-underline-offset:4px}
 .nav a:hover{text-decoration:underline}
+.nav a.app{color:var(--text);border:1px solid var(--line);border-radius:var(--radius);
+           padding:7px 12px}
+.nav a.app:hover{border-color:var(--muted);text-decoration:none}
+footer .note a{color:var(--text);text-underline-offset:3px}
 .nav a:hover{color:var(--text)}
 .switch{display:flex;gap:6px}
 .switch button{display:flex;align-items:center;gap:7px;font-family:var(--sans);

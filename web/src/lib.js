@@ -29,3 +29,58 @@ export const tally = () => {
 }
 
 export const TOTAL = D.week.reduce((s, d) => s + d.blocks.reduce((k, b) => k + b.l1 - b.l0 + 1, 0), 0)
+
+// ── что происходит прямо сейчас ─────────────────────────────────────────────
+// Возвращает одно из состояний дня: до начала, урок, промежуток, всё кончилось,
+// выходной. Промежуток знает своё имя — перемена, обед или второй завтрак.
+export const dayIndex = (d) => {
+  const wd = d.getDay()
+  return wd >= 1 && wd <= 6 ? wd - 1 : null
+}
+
+export const lessonsOf = (day) => {
+  const out = []
+  day.blocks.forEach((b) => {
+    for (let n = b.l0; n <= b.l1; n++) {
+      const [from, to] = D.lessons[n]
+      out.push({ n, from, to, block: b })
+    }
+  })
+  return out.sort((a, b) => a.from - b.from)
+}
+
+const gapName = (from, to) => {
+  const meal = D.intervals.find((v) => v.kind === 'meal' && v.a <= from && v.b >= to)
+  if (meal) return meal.name
+  return to - from <= 15 ? 'перемена' : 'окно'
+}
+
+export function nowState(now = new Date()) {
+  const di = dayIndex(now)
+  if (di === null) return { kind: 'weekend' }
+  const day = D.week[di]
+  const list = lessonsOf(day)
+  const m = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60
+
+  if (m < list[0].from) return { kind: 'before', di, day, next: list[0], list }
+  const last = list[list.length - 1]
+  if (m > last.to) return { kind: 'after', di, day, list }
+
+  const cur = list.find((l) => m >= l.from && m <= l.to)
+  if (cur) {
+    return {
+      kind: 'lesson', di, day, list, cur,
+      left: Math.max(0, Math.ceil(cur.to - m)),
+      progress: (m - cur.from) / (cur.to - cur.from),
+      next: list.find((l) => l.from > cur.to) || null,
+    }
+  }
+  const prev = [...list].reverse().find((l) => l.to <= m)
+  const next = list.find((l) => l.from >= m)
+  return {
+    kind: 'gap', di, day, list, next,
+    name: gapName(prev.to, next.from),
+    left: Math.max(0, Math.ceil(next.from - m)),
+    progress: (m - prev.to) / (next.from - prev.to),
+  }
+}

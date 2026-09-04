@@ -1,0 +1,18 @@
+{
+  "name": "10-Л · расписание СУНЦ МГУ",
+  "short_name": "10-Л",
+  "description": "Что сейчас, сколько осталось и что дальше. Химический класс, I семестр 2026/27.",
+  "lang": "ru",
+  "dir": "ltr",
+  "start_url": "./app.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A0D13",
+  "theme_color": "#0A0D13",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "./icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

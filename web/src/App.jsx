@@ -92,6 +92,7 @@ export default function App() {
           <a href="#proba">Проба дня</a>
           <a href="#hronometrazh" className="hide">Хронометраж</a>
           <a href="#ottiski">Оттиски</a>
+          <a href={BASE + 'app.html'} className="app">Приложение</a>
           <span className="switch">
             {Object.values(WORLDS).map((w) => (
               <button key={w.id} className={w.id === worldId ? 'on' : ''}
@@ -210,7 +211,9 @@ export default function App() {
             Данные: internat.msu.ru, колонка 10-Л. Границы сдвоенных блоков сняты
             по рамкам ячеек и сверены с изображением расписания.
           </span>
-          <span className="note">Хронохром · 2026</span>
+          <span className="note">
+            <a href={BASE + 'app.html'}>Карманное расписание</a> · Хронохром · 2026
+          </span>
         </footer>
 
         <p className="studio">{D.texts['студия']}</p>
