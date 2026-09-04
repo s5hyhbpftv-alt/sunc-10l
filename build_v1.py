@@ -7,7 +7,8 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.colors import Color, HexColor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from data import LESSON_TIMES, INTERVALS, FAMILY, WEEK, CLASSROOM
+from data import LESSON_TIMES, INTERVALS, FAMILY, WEEK, CLASSROOM, ЭПИГРАФ, ТЕКСТЫ
+from marks import draw_signet
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 FDIR = os.path.join(BASE, 'fonts')
@@ -58,6 +59,20 @@ def tracked(c, txt, x, y, font, size, tr, color, align='l'):
 
 def tw(txt, font, size, tr):
     return sum(pdfmetrics.stringWidth(ch, font, size) for ch in txt) + tr * max(0, len(txt) - 1)
+
+
+def para(c, txt, x, y, room, font, size, step, color):
+    """Абзац в заданную ширину. Возвращает нижнюю границу."""
+    words, line = txt.split(), ''
+    for w in words:
+        probe = (line + ' ' + w).strip()
+        if pdfmetrics.stringWidth(probe, font, size) <= room:
+            line = probe
+        else:
+            tracked(c, line, x, y, font, size, 0, color); y -= step; line = w
+    if line:
+        tracked(c, line, x, y, font, size, 0, color); y -= step
+    return y
 
 
 def ground(c):
@@ -135,7 +150,7 @@ def page_cover(c):
 
     sx = M + 40
     sw = W - M - sx
-    sy, sh = 112.0, 292.0
+    sy, sh = 112.0, 268.0
     colw = sw / 6.0
     gap = 11.0
 
@@ -165,17 +180,23 @@ def page_cover(c):
                 cx + (colw - gap) / 2, sy - 35, 'Mono', 6.6, 1.6, MUTED2, align='c')
     hairline(c, sx - 8, sy - 50, W - M, MUTED2, 0.5)
 
-    tracked(c, '10-Л', M - 6, 486, 'Disp', 186, -4, PAPER)
-    wq = tw('10-Л', 'Disp', 186, -4)
-    tx = M + wq + 32
-    tracked(c, 'РАСПИСАНИЕ', tx, 600, 'DispMid', 29, 4, AMBER)
-    tracked(c, 'УЧЕБНЫХ ЗАНЯТИЙ', tx, 561, 'DispMid', 29, 4, mix(INK, PAPER, 0.55))
-    hairline(c, tx + 2, 541, W - M, MUTED2, 0.5)
-    tracked(c, 'I СЕМЕСТР 2026/27', tx, 514, 'Mono', 8.4, 2.4, MUTED)
-    tracked(c, 'КАБИНЕТ 40', tx + 190, 514, 'Mono', 8.4, 2.4, MUTED)
-    tracked(c, '38 УРОКОВ В НЕДЕЛЮ', tx + 330, 514, 'Mono', 8.4, 2.4, MUTED)
-    tracked(c, 'ХРОНОХРОМ · ВРЕМЯ, РАЗЛОЖЕННОЕ В СПЕКТР', W - M, 486, 'Mono', 7.6,
-            2.6, MUTED2, align='r')
+    draw_signet(c, M + 96, 566, 92, 'Disp', ink='#EEF2F8')
+
+    tx = M + 226
+    band = 'ХИМИЧЕСКИЙ КЛАСС'
+    bw = tw(band, 'Mono', 14, 5.0) + 38
+    c.setFillColor(HexColor('#FF5C93'))
+    c.roundRect(tx, 636, bw, 32, 4, stroke=0, fill=1)
+    tracked(c, band, tx + 19, 646, 'Mono', 14, 5.0, INK)
+
+    tracked(c, 'РАСПИСАНИЕ', tx, 586, 'DispMid', 31, 4, AMBER)
+    tracked(c, 'УЧЕБНЫХ ЗАНЯТИЙ', tx, 545, 'DispMid', 31, 4, mix(INK, PAPER, 0.55))
+    hairline(c, tx + 2, 524, W - M, MUTED2, 0.5)
+    tracked(c, 'I СЕМЕСТР 2026/27', tx, 500, 'Mono', 8.4, 2.4, MUTED)
+    tracked(c, 'КАБИНЕТ 40', tx + 190, 500, 'Mono', 8.4, 2.4, MUTED)
+    tracked(c, '38 УРОКОВ В НЕДЕЛЮ', tx + 330, 500, 'Mono', 8.4, 2.4, MUTED)
+    tracked(c, ТЕКСТЫ['девиз'].upper(), tx, 468, 'DispMid', 13, 3.0, AMBER)
+    para(c, ТЕКСТЫ['обложка'], tx, 444, W - M - tx, 'Sans', 11.5, 17, MUTED)
 
     folio(c, 'ИСТОЧНИК: INTERNAT.MSU.RU', '01')
 
@@ -183,14 +204,15 @@ def page_cover(c):
 # ── 02 · звонки ─────────────────────────────────────────────────────────────
 def page_bells(c):
     ground(c)
-    running_head(c, 'РИТМ ДНЯ · 02')
-    title(c, 'ЗВОНКИ', 'ЕДИНАЯ СЕТКА ДЛЯ ВСЕХ КЛАССОВ · 8 УРОКОВ ПО 45 МИНУТ')
+    running_head(c, 'ХРОНОМЕТРАЖ · 02')
+    title(c, 'ХРОНОМЕТРАЖ', 'ЕДИНАЯ СЕТКА ДЛЯ ВСЕХ КЛАССОВ')
+    y0 = para(c, ТЕКСТЫ['хронометраж'], M, H - 196, 620, 'Sans', 11, 17, MUTED)
 
     rows = [('lesson', str(n), 'урок', a, b) for n, (a, b) in sorted(LESSON_TIMES.items())]
     rows += [(k, '', nm, a, b) for k, nm, a, b in INTERVALS]
     rows.sort(key=lambda r: r[3])
 
-    y = H - 226
+    y = y0 - 14
     for kind, num, nm, a, b in rows:
         L = kind == 'lesson'
         col = PAPER if L else (AMBER if kind == 'meal' else MUTED2)
@@ -217,7 +239,7 @@ def page_bells(c):
     hairline(c, M, y + 6, W - M, MUTED2, 0.5)
     tracked(c, 'ПОЛДНИК В ИСТОЧНИКЕ НАЧИНАЕТСЯ В 16:40 — НА ПЯТЬ МИНУТ РАНЬШЕ КОНЦА 8-ГО УРОКА',
             M, y - 18, 'Mono', 7.2, 1.6, MUTED2)
-    folio(c, 'ЗВОНКИ · ВСЕ КЛАССЫ', '02')
+    folio(c, 'ХРОНОМЕТРАЖ', '02')
 
 
 # ── 03–08 · дни ─────────────────────────────────────────────────────────────
@@ -239,8 +261,9 @@ def page_day(c, di):
     xh += tracked(c, '·', xh, yh, 'Mono', 9, 0, MUTED2) + 13
     tracked(c, '%d Ч %02d МИН' % (mins // 60, mins % 60), xh, yh, 'Mono', 9, 2.2, MUTED)
     hairline(c, M, H - 172, W - M, MUTED2, 0.5)
+    ye = para(c, ЭПИГРАФ[di], M, H - 196, W - 2 * M - 250, 'Sans', 11, 17, MUTED)
 
-    ty, th = 100.0, H - 172 - 34 - 100.0
+    ty, th = 100.0, (ye - 12) - 100.0
     ax0, ax1 = M + 54, 942.0
     META = 132.0
 
@@ -286,12 +309,16 @@ def page_day(c, di):
             tracked(c, note.upper(), nx + tw(name, 'SansBold', ns, 0.4) + 16,
                     cy - 3.4, 'Mono', 7.6, 1.6, mix(col, INK, 0.48))
         rx = ax1 - 22
+        # в низком блоке фамилия под кабинетом уходила за край — поджимаем строки
+        высокий = bh > 66
+        yk = cy - 6 if высокий else cy + 3
+        yt2 = cy - 23 if высокий else cy - 11
         if room:
-            tracked(c, room, rx, cy - 6, 'MonoBold', 13, 1.2, ic, align='r')
-            tracked(c, 'КАБ.', rx - tw(room, 'MonoBold', 13, 1.2) - 9, cy - 5, 'Mono',
+            tracked(c, room, rx, yk, 'MonoBold', 13, 1.2, ic, align='r')
+            tracked(c, 'КАБ.', rx - tw(room, 'MonoBold', 13, 1.2) - 9, yk + 1, 'Mono',
                     6.6, 1.4, mix(col, INK, 0.46), align='r')
         if teach:
-            tracked(c, teach, rx, cy - 23, 'SansMid', 10, 0.5, mix(col, INK, 0.62),
+            tracked(c, teach, rx, yt2, 'SansMid', 10, 0.5, mix(col, INK, 0.62),
                     align='r')
 
     busy = set()
@@ -316,10 +343,11 @@ def page_day(c, di):
 # ── 09 · неделя ─────────────────────────────────────────────────────────────
 def page_week(c):
     ground(c)
-    running_head(c, 'НЕДЕЛЯ ЦЕЛИКОМ · 09')
-    title(c, 'НЕДЕЛЯ', '38 УРОКОВ · 6 ДНЕЙ · 28 Ч 30 МИН')
+    running_head(c, 'ХРОМАТОГРАММА · 09')
+    title(c, 'ХРОМАТОГРАММА', '38 УРОКОВ · 6 ДНЕЙ · 28 Ч 30 МИН')
+    yh = para(c, ТЕКСТЫ['хроматограмма'], M, H - 196, 700, 'Sans', 11, 17, MUTED)
 
-    ty, th = 96.0, H - 172 - 44 - 96.0
+    ty, th = 96.0, (yh - 26) - 96.0
     ax0, ax1 = M + 124, W - M
     colw = (ax1 - ax0) / 6.0
     gap = 7.0
@@ -386,8 +414,9 @@ def page_week(c):
 # ── 10 · спектр ─────────────────────────────────────────────────────────────
 def page_legend(c):
     ground(c)
-    running_head(c, 'СПЕКТР ПРЕДМЕТОВ · 10')
-    title(c, 'СПЕКТР', 'ЧАСЫ ПО ПРЕДМЕТАМ ЗА НЕДЕЛЮ · 1 УРОК = 45 МИНУТ')
+    running_head(c, 'СОСТАВ · 10')
+    title(c, 'СОСТАВ', 'ЧАСЫ ПО ПРЕДМЕТАМ ЗА НЕДЕЛЮ · 1 УРОК = 45 МИНУТ')
+    ys = para(c, ТЕКСТЫ['состав'], M, H - 196, 700, 'Sans', 11, 17, MUTED)
 
     tally = {}
     for day in WEEK:
@@ -396,7 +425,7 @@ def page_legend(c):
     order = sorted(tally.items(), key=lambda kv: (-kv[1], FAMILY[kv[0]][1]))
     top = max(v for _, v in order)
 
-    y, rowh = H - 222, 33.5
+    y, rowh = ys - 12, 31.0
     bx = M + 306
     bw = W - M - 46 - bx
     for fam, n in order:
