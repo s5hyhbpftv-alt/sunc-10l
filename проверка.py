@@ -156,11 +156,37 @@ def проверить_вывод():
     return из_pdf
 
 
+def проверить_поля():
+    """Ни одно слово не должно выходить за поля: длинные строки на А4 уезжали
+    за обрез, и на глаз это ловилось только на той полосе, куда посмотрели."""
+    try:
+        import pdfplumber
+    except ImportError:
+        сказать(замечания, 'pdfplumber не установлен, поля не проверены')
+        return
+    ММ = 72 / 25.4
+    for имя in ('Расписание 10-Л — СУНЦ МГУ.pdf', 'Расписание 10-Л — крафт.pdf',
+                'v1-raspisanie-10L-SUNC-MGU.pdf'):
+        путь = os.path.join(ЗДЕСЬ, 'out', имя)
+        if not os.path.exists(путь):
+            continue
+        with pdfplumber.open(путь) as pdf:
+            for i, стр in enumerate(pdf.pages, 1):
+                W, H, п = стр.width, стр.height, 9 * ММ
+                for w in стр.extract_words():
+                    if (w['x0'] < п or w['x1'] > W - п
+                            or w['top'] < п or w['bottom'] > H - п):
+                        сказать(ошибки, '%s, полоса %02d: «%s» выходит за поля'
+                                % (имя, i, w['text']))
+                        break
+
+
 def главная():
     сверить_расписание()
     проверить_звонки()
     проверить_целостность()
     проверить_вывод()
+    проверить_поля()
     print('Ошибки:', len(ошибки))
     for o in ошибки: print('  ✗', o)
     print('Замечания:', len(замечания))
