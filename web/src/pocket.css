@@ -81,5 +81,5 @@
        letter-spacing:.1em;text-transform:uppercase;background:var(--text);color:var(--bg);
        border:0;border-radius:var(--radius);padding:14px;cursor:pointer}
 .pfoot a{font-size:13px;color:var(--muted);text-underline-offset:4px}
-.pfoot span{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:.18em;
-       text-transform:uppercase;color:var(--faint)}
+.pstudio{margin:0;font-family:var(--sans);font-weight:600;font-size:11px;
+       letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}

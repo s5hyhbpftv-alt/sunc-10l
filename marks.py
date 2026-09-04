@@ -175,3 +175,40 @@ def svg_signet(R, mono=None, colors=None, inner='#EEF2F8', ink=None,
                % (cx, cy, font, r * 0.66, mono or ink or inner, label))
     out.append('</svg>')
     return '\n'.join(out)
+
+
+# ── подпись студии: «е», которая на самом деле «ё» ──────────────────────────
+def draw_studio(c, txt, x, y, шрифт, кегль, тр, цвет, акцент, вырав='c'):
+    """Рисует подпись, выделяя в имени букву «е».
+
+    По-русски студия зовётся Настёна, но в латинской раскладке буквы «ё» нет.
+    Две точки над «е» возвращают её на место — и заодно читаются как
+    неподелённая электронная пара над атомом. Для химического класса это
+    не украшение, а его собственный знак препинания.
+    """
+    from reportlab.pdfbase import pdfmetrics
+    ш = [pdfmetrics.stringWidth(з, шрифт, кегль) for з in txt]
+    всего = sum(ш) + тр * max(0, len(txt) - 1)
+    if вырав == 'c': x -= всего / 2.0
+    elif вырав == 'r': x -= всего
+
+    верх = txt.upper()
+    метка = верх.find('NAST')
+    цель = метка + 4 if метка >= 0 else -1     # буква «е» в имени
+
+    c.setFont(шрифт, кегль)
+    курсор = x
+    центр = None
+    for i, (з, w) in enumerate(zip(txt, ш)):
+        c.setFillColor(акцент if i == цель else цвет)
+        c.drawString(курсор, y, з)
+        if i == цель:
+            центр = курсор + w / 2.0
+        курсор += w + тр
+
+    if центр is not None:
+        r = кегль * 0.064
+        c.setFillColor(акцент)
+        c.circle(центр - кегль * 0.13, y + кегль * 0.86, r, stroke=0, fill=1)
+        c.circle(центр + кегль * 0.13, y + кегль * 0.86, r, stroke=0, fill=1)
+    return всего

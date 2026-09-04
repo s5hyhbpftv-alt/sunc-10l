@@ -210,6 +210,8 @@ footer .note a{color:var(--text);text-underline-offset:3px}
 .dl .txt{font-size:12.5px;line-height:1.5;color:var(--muted);display:block}
 footer{padding:34px 0 26px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;
        gap:16px;justify-content:space-between;align-items:center}
+/* «е», которая на самом деле «ё»: точки ставит сам шрифт, цвет — наш */
+.yo{color:var(--accent);cursor:help}
 .studio{margin:0;padding:22px 0 48px;text-align:center;font-family:var(--sans);
         font-weight:600;font-size:12px;letter-spacing:.22em;text-transform:uppercase;
         color:var(--muted)}

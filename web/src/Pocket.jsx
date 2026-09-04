@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { WORLDS } from './worlds'
 import { Signet } from './Marks'
 import { D, hhmm, skl, nowState, lessonsOf, dayIndex } from './lib'
+import Studio from './Studio'
 
 const RING = ['chem', 'math', 'inf', 'phys', 'eng', 'lit']
 const BASE = import.meta.env.BASE_URL
@@ -141,7 +142,7 @@ export default function Pocket() {
             <button className="pinstall" onClick={install}>Установить на телефон</button>
           )}
           <a href={BASE}>Полная версия расписания</a>
-          <span>{D.texts['студия']}</span>
+          <Studio className="pstudio" />
         </footer>
       </div>
     </>

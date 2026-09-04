@@ -24,7 +24,7 @@ import segno
 ЗДЕСЬ = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ЗДЕСЬ)
 from data import LESSON_TIMES, INTERVALS, FAMILY, WEEK, ЭПИГРАФ, ТЕКСТЫ
-from marks import draw_sunc, draw_ring, draw_signet, RING
+from marks import draw_sunc, draw_ring, draw_signet, draw_studio, RING
 
 ВЫХОД = os.path.join(ЗДЕСЬ, 'out', 'Расписание 10-Л — СУНЦ МГУ.pdf')
 ШРИФТЫ = os.path.join(ЗДЕСЬ, 'fonts')
@@ -616,8 +616,8 @@ def полоса_конец(c):
     разрядка(c, 'КОЛОНКА 10-Л · КАБИНЕТ 40 · СВЕРЕНО С ИЗОБРАЖЕНИЕМ РАСПИСАНИЯ',
              Ш / 2, НИЗ + 15.6 * mm, 'Mono', 5.8, 1.4, ТЕНЬ, вырав='c')
     волос(c, Ш / 2 - 42 * mm, НИЗ + 10 * mm, Ш / 2 + 42 * mm, ТЕНЬ, 0.5)
-    разрядка(c, ТЕКСТЫ['студия'].upper(), Ш / 2, НИЗ + 4 * mm, 'Mono', 6.6, 2.2,
-             ТУСКЛЫЙ, вырав='c')
+    draw_studio(c, ТЕКСТЫ['студия'].upper(), Ш / 2, НИЗ + 4 * mm, 'Mono', 7.6, 2.4,
+                ТУСКЛЫЙ, HexColor('#FF5C93'), вырав='c')
     колонцифра(c, 'ХРОНОХРОМ · 2026', '12')
 
 

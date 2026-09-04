@@ -22,7 +22,7 @@ import segno
 ЗДЕСЬ = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ЗДЕСЬ)
 from data import LESSON_TIMES, INTERVALS, FAMILY, WEEK, ЭПИГРАФ, ТЕКСТЫ
-from marks import draw_sunc, draw_ring, draw_signet
+from marks import draw_sunc, draw_ring, draw_signet, draw_studio
 from крафт import лист
 
 ВЫХОД = os.path.join(ЗДЕСЬ, 'out', 'Расписание 10-Л — крафт.pdf')
@@ -700,8 +700,8 @@ def полоса_конец(c):
              Ш / 2, НИЗ + 15.6 * mm, 'Маш', 5.8, 1.4, БЛЕДНЫЙ, вырав='c')
     волос(c, Ш / 2 - 42 * mm, НИЗ + 10 * mm, Ш / 2 + 42 * mm,
           смешать(КРАФТ, ЧЕРНИЛА, 0.30), 0.5)
-    разрядка(c, ТЕКСТЫ['студия'].upper(), Ш / 2, НИЗ + 4 * mm, 'Маш', 6.6, 2.2,
-             ПОЛУТОН, вырав='c')
+    draw_studio(c, ТЕКСТЫ['студия'].upper(), Ш / 2, НИЗ + 4 * mm, 'Маш', 7.6, 2.4,
+                ПОЛУТОН, HexColor(КРАСКА['chem']), вырав='c')
     колонцифра(c, 'ХРОНОХРОМ · КРАФТ · 2026', '12')
 
 

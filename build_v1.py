@@ -8,7 +8,7 @@ from reportlab.lib.colors import Color, HexColor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from data import LESSON_TIMES, INTERVALS, FAMILY, WEEK, CLASSROOM, ЭПИГРАФ, ТЕКСТЫ
-from marks import draw_signet
+from marks import draw_signet, draw_studio
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 FDIR = os.path.join(BASE, 'fonts')
@@ -467,7 +467,8 @@ def page_legend(c):
     tracked(c, 'ДАННЫЕ: INTERNAT.MSU.RU · РАСПИСАНИЕ НА I СЕМЕСТР 2026/27 · КОЛОНКА 10-Л',
             W - M, ry + rh + 12, 'Mono', 7, 1.8, MUTED2, align='r')
     hairline(c, W / 2 - 150, ry - 42, W / 2 + 150, MUTED2, 0.5)
-    tracked(c, ТЕКСТЫ['студия'].upper(), W / 2, ry - 58, 'Mono', 7, 2.2, MUTED, align='c')
+    draw_studio(c, ТЕКСТЫ['студия'].upper(), W / 2, ry - 58, 'Mono', 8, 2.4, MUTED,
+                HexColor('#FF5C93'), вырав='c')
     folio(c, 'ХРОНОХРОМ', '10')
 
 

@@ -6,6 +6,7 @@ import Spectrum from './sections/Spectrum'
 import DayTape from './sections/DayTape'
 import Bells from './sections/Bells'
 import Elements from './sections/Elements'
+import Studio from './Studio'
 
 const RING_KEYS = ['chem', 'math', 'inf', 'phys', 'eng', 'lit']
 const SUNC = ['chem', 'math', 'hist']
@@ -216,7 +217,7 @@ export default function App() {
           </span>
         </footer>
 
-        <p className="studio">{D.texts['студия']}</p>
+        <Studio />
       </main>
     </>
   )
