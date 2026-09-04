@@ -3,6 +3,7 @@
 Химический класс, I семестр 2026/27. Кабинет 40, 38 уроков в неделю.
 
 **Сайт:** https://s5hyhbpftv-alt.github.io/sunc-10l/
+**Приложение:** https://s5hyhbpftv-alt.github.io/sunc-10l/app.html
 (`?world=kraft` открывает крафтовый мир сразу)
 
 ## Что готово
@@ -52,7 +53,8 @@ cd web && npm run build # сайт
 | `data.py` | содержание: звонки, блоки уроков, палитра, эпиграфы дней, общие тексты |
 | `marks.py` | знаки: кубы СУНЦ и печатка 10-Л, в reportlab и в SVG |
 | `экспорт.py` | данные книг → `web/src/data.json` |
-| `web/` | React + Vite: два мира на одних переменных, данные те же |
+| `web/` | React + Vite, две страницы: витрина и карманное расписание (PWA) |
+| `иконки.py` | иконки приложения из геометрии знака: reportlab → PDF → PNG |
 | `fonts/` | Unbounded, Manrope, JetBrains Mono — статические начертания под кириллицу |
 | `source-1-semestr-26-27-s-kabinetami_s-03-09.xlsx` | заводской файл с сайта интерната |
 
