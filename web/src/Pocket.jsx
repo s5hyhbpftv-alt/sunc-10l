@@ -10,6 +10,7 @@ const BASE = import.meta.env.BASE_URL
 const ИЗДАНИЯ = [
   { file: 'pdf/10L-chernila.pdf', title: 'Чернильная книга', meta: 'A4 · 12 полос · 143 КБ' },
   { file: 'pdf/10L-kraft.pdf', title: 'Крафтовое издание', meta: 'A4 · 12 полос · 1,1 МБ' },
+  { file: 'pdf/10L-tablica.pdf', title: 'Лист на стену', meta: 'A4 поперёк · 1 полоса · чёрно-белая' },
   { file: 'pdf/10L-plakat-a3.pdf', title: 'Настенный разворот', meta: 'A3 · 10 полос · 125 КБ' },
 ]
 

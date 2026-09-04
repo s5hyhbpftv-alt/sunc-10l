@@ -10,11 +10,13 @@ cd "$root"
 python3 книга.py
 python3 книга-крафт.py
 python3 build_v1.py
+python3 таблица.py
 python3 экспорт.py
 
 cp "out/Расписание 10-Л — СУНЦ МГУ.pdf" web/public/pdf/10L-chernila.pdf
 cp "out/Расписание 10-Л — крафт.pdf"     web/public/pdf/10L-kraft.pdf
 cp out/v1-raspisanie-10L-SUNC-MGU.pdf    web/public/pdf/10L-plakat-a3.pdf
+cp "out/Расписание 10-Л — таблица.pdf"   web/public/pdf/10L-tablica.pdf
 cp assets/kraft.jpg                      web/public/kraft.jpg
 
 ( cd web && npm run build )
